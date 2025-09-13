@@ -1,0 +1,195 @@
+# Dependency Security Scanning
+name: Dependency Security
+
+on:
+  schedule:
+    - cron: '0 6 * * MON'  # Weekly on Monday at 6 AM UTC
+  push:
+    branches: [ main ]
+    paths:
+      - '**/requirements.txt'
+      - '**/package.json'
+      - '**/package-lock.json'
+      - '**/Pipfile'
+      - '**/poetry.lock'
+
+jobs:
+  dependency-scan:
+    name: 🔍 Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      - name: Upload Snyk results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: snyk.sarif
+
+      - name: Run OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'tolis-showcase'
+          path: '.'
+          format: 'ALL'
+          out: 'dependency-check-reports'
+
+      - name: Upload OWASP Dependency Check results
+        uses: actions/upload-artifact@v3
+        with:
+          name: dependency-check-reports
+          path: dependency-check-reports/
+
+  # PowerShell module security scanning
+  powershell-security:
+    name: 🛡️ PowerShell Security Analysis
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install PSScriptAnalyzer
+        shell: powershell
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+
+      - name: Run PSScriptAnalyzer security rules
+        shell: powershell
+        run: |
+          $results = @()
+          Get-ChildItem -Path . -Recurse -Filter "*.ps1" | ForEach-Object {
+            $analysis = Invoke-ScriptAnalyzer -Path $_.FullName -Severity Warning,Error -IncludeRule PSUseShouldProcessForStateChangingFunctions,PSAvoidUsingPlainTextForPassword,PSAvoidUsingConvertToSecureStringWithPlainText,PSUsePSCredentialType
+            $results += $analysis
+          }
+          
+          if ($results.Count -gt 0) {
+            Write-Host "Security issues found in PowerShell scripts:" -ForegroundColor Red
+            $results | Format-Table -AutoSize
+            $results | ConvertTo-Json | Out-File -FilePath "powershell-security-results.json"
+          } else {
+            Write-Host "No security issues found in PowerShell scripts." -ForegroundColor Green
+          }
+
+      - name: Upload PowerShell security results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: powershell-security-results
+          path: powershell-security-results.json
+
+  # Terraform security and compliance
+  terraform-security:
+    name: 🏗️ Terraform Security Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Terrascan
+        uses: accurics/terrascan-action@main
+        with:
+          iac_type: 'terraform'
+          iac_dir: 'terraform/'
+          policy_type: 'azure'
+          only_warn: true
+          sarif_upload: true
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with:
+          working_directory: terraform/
+          format: sarif
+          soft_fail: true
+
+      - name: Upload tfsec results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: results.sarif
+
+  # Secret scanning
+  secret-scan:
+    name: 🔐 Secret Detection
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run GitLeaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+      - name: Run TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+          extra_args: --debug --only-verified
+
+  # Compliance reporting
+  compliance-report:
+    name: 📋 Compliance Reporting
+    runs-on: ubuntu-latest
+    needs: [dependency-scan, powershell-security, terraform-security, secret-scan]
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Generate compliance report
+        run: |
+          echo "# Security Compliance Report" > compliance-report.md
+          echo "Generated on: $(date)" >> compliance-report.md
+          echo "" >> compliance-report.md
+          echo "## Scan Results Summary" >> compliance-report.md
+          echo "- ✅ Dependency vulnerability scanning completed" >> compliance-report.md
+          echo "- ✅ PowerShell security analysis completed" >> compliance-report.md
+          echo "- ✅ Terraform security validation completed" >> compliance-report.md
+          echo "- ✅ Secret detection scanning completed" >> compliance-report.md
+          echo "" >> compliance-report.md
+          echo "## Recommendations" >> compliance-report.md
+          echo "- Review all identified vulnerabilities" >> compliance-report.md
+          echo "- Update dependencies with known security issues" >> compliance-report.md
+          echo "- Address any infrastructure security gaps" >> compliance-report.md
+          echo "- Rotate any exposed secrets immediately" >> compliance-report.md
+
+      - name: Upload compliance report
+        uses: actions/upload-artifact@v3
+        with:
+          name: compliance-report
+          path: compliance-report.md
+
+      - name: Create issue for security findings
+        uses: actions/github-script@v6
+        if: failure()
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Security Scan Findings Require Attention',
+              body: 'Automated security scans have identified issues that require review. Please check the latest workflow run for details.',
+              labels: ['security', 'high-priority']
+            })

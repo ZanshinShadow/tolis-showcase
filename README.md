@@ -4,6 +4,8 @@
 [![Azure](https://img.shields.io/badge/Azure-Cloud-blue.svg)](https://azure.microsoft.com)
 [![Microsoft 365](https://img.shields.io/badge/Microsoft_365-Admin-orange.svg)](https://www.microsoft.com/microsoft-365)
 [![PowerShell](https://img.shields.io/badge/PowerShell-7.0+-blue.svg)](https://github.com/PowerShell/PowerShell)
+[![DevSecOps](https://img.shields.io/badge/DevSecOps-Security%20First-red.svg)](https://github.com/ZanshinShadow/tolis-showcase)
+[![Security](https://img.shields.io/badge/Security-Automated-green.svg)](https://github.com/ZanshinShadow/tolis-showcase/security)
 
 > **A comprehensive showcase of enterprise-level expertise in Terraform Infrastructure as Code, Microsoft 365 administration, and Azure cloud services.**
 
@@ -110,6 +112,36 @@ az resource list --resource-group rg-tolis-showcase-dev-eus --output table
 # Test the deployed web application
 # The load balancer public IP will be shown in the Terraform outputs
 ```
+
+## 🔒 DevSecOps Integration
+
+This project demonstrates enterprise-level DevSecOps practices with automated security throughout the development lifecycle:
+
+### **Security Automation Pipeline**
+- **🔍 Vulnerability Scanning**: Trivy, Checkov, Snyk integration
+- **🛡️ Infrastructure Security**: Terraform security validation with tfsec and Terrascan
+- **🔐 Secret Detection**: GitLeaks and TruffleHog for credential scanning
+- **📋 Compliance Monitoring**: Automated Azure Security Center integration
+- **💰 Cost Governance**: Resource cost tracking and budget monitoring
+- **🚨 Drift Detection**: Infrastructure drift monitoring and alerting
+
+### **Continuous Security Workflows**
+```yaml
+# Automated security checks on every commit
+- Security vulnerability scanning
+- Infrastructure compliance validation
+- Secret detection and prevention
+- Cost optimization analysis
+- Azure Policy compliance monitoring
+```
+
+### **Security Features**
+- **Zero-trust architecture** with private endpoints
+- **Azure Key Vault** integration for secrets management
+- **Network security groups** with least privilege access
+- **Azure Security Center** continuous monitoring
+- **Log Analytics** for security event correlation
+- **Automated security recommendations** and remediation
 
 ## 🛠️ Key Features & Capabilities
 

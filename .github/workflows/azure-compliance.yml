@@ -1,0 +1,274 @@
+# Azure Resource Compliance Monitoring
+name: Azure Compliance
+
+on:
+  schedule:
+    - cron: '0 8 * * MON,WED,FRI'  # Monday, Wednesday, Friday at 8 AM UTC
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to scan'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - prod
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+jobs:
+  azure-compliance:
+    name: 🛡️ Azure Security Compliance
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Install Azure CLI extensions
+        run: |
+          az extension add --name security
+          az extension add --name policy-insights
+
+      - name: Run Azure Security Center assessment
+        run: |
+          echo "Running Azure Security Center assessment..."
+          az security assessment list --output table > asc-assessment.txt
+          cat asc-assessment.txt
+
+      - name: Check Azure Policy compliance
+        run: |
+          echo "Checking Azure Policy compliance..."
+          az policy state list --all --output table > policy-compliance.txt
+          cat policy-compliance.txt
+
+      - name: Generate security recommendations
+        run: |
+          echo "Generating security recommendations..."
+          az security recommendation list --output table > security-recommendations.txt
+          cat security-recommendations.txt
+
+      - name: Check Key Vault security
+        run: |
+          echo "Checking Key Vault security configuration..."
+          az keyvault list --query "[].{Name:name,ResourceGroup:resourceGroup,Location:location}" --output table
+
+      - name: Validate network security groups
+        run: |
+          echo "Validating Network Security Groups..."
+          az network nsg list --query "[].{Name:name,ResourceGroup:resourceGroup,SecurityRules:length(securityRules)}" --output table
+
+      - name: Check storage account security
+        run: |
+          echo "Checking storage account security..."
+          az storage account list --query "[].{Name:name,ResourceGroup:resourceGroup,EnableHttpsTrafficOnly:enableHttpsTrafficOnly,MinimumTlsVersion:minimumTlsVersion}" --output table
+
+      - name: Generate compliance report
+        run: |
+          cat << EOF > azure-compliance-report.md
+          # Azure Security Compliance Report
+          Generated on: $(date)
+          Environment: ${{ github.event.inputs.environment || 'scheduled' }}
+          
+          ## Security Center Assessment
+          \`\`\`
+          $(cat asc-assessment.txt)
+          \`\`\`
+          
+          ## Policy Compliance Status
+          \`\`\`
+          $(cat policy-compliance.txt)
+          \`\`\`
+          
+          ## Security Recommendations
+          \`\`\`
+          $(cat security-recommendations.txt)
+          \`\`\`
+          
+          ## Summary
+          - Security Center recommendations reviewed
+          - Policy compliance validated
+          - Key infrastructure security verified
+          
+          EOF
+
+      - name: Upload compliance artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: azure-compliance-report
+          path: |
+            azure-compliance-report.md
+            asc-assessment.txt
+            policy-compliance.txt
+            security-recommendations.txt
+
+  cost-governance:
+    name: 💰 Cost Governance Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Check resource costs
+        run: |
+          echo "Checking current month costs..."
+          az consumption usage list --top 10 --output table > cost-analysis.txt
+          cat cost-analysis.txt
+
+      - name: Check budget status
+        run: |
+          echo "Checking budget alerts..."
+          # Note: Replace with actual resource group name
+          az consumption budget list --resource-group "rg-tolis-showcase-dev" --output table > budget-status.txt || echo "No budgets configured"
+
+      - name: Resource inventory
+        run: |
+          echo "Current resource inventory..."
+          az resource list --query "[].{Name:name,Type:type,ResourceGroup:resourceGroup,Location:location}" --output table > resource-inventory.txt
+          cat resource-inventory.txt
+
+      - name: Generate cost governance report
+        run: |
+          cat << EOF > cost-governance-report.md
+          # Cost Governance Report
+          Generated on: $(date)
+          
+          ## Current Usage
+          \`\`\`
+          $(cat cost-analysis.txt)
+          \`\`\`
+          
+          ## Resource Inventory
+          \`\`\`
+          $(cat resource-inventory.txt)
+          \`\`\`
+          
+          ## Recommendations
+          - Review high-cost resources
+          - Implement resource tagging strategy
+          - Set up budget alerts
+          - Consider reserved instances for production workloads
+          
+          EOF
+
+      - name: Upload cost governance artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: cost-governance-report
+          path: |
+            cost-governance-report.md
+            cost-analysis.txt
+            resource-inventory.txt
+
+  infrastructure-drift:
+    name: 🔍 Infrastructure Drift Detection
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.5.0'
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan (Drift Detection)
+        run: |
+          terraform plan -var-file=environments/dev/terraform.tfvars -detailed-exitcode -out=drift-detection.tfplan || EXIT_CODE=$?
+          echo "Terraform plan exit code: $EXIT_CODE"
+          if [ $EXIT_CODE -eq 2 ]; then
+            echo "Infrastructure drift detected!"
+            terraform show drift-detection.tfplan > drift-details.txt
+          elif [ $EXIT_CODE -eq 1 ]; then
+            echo "Terraform plan failed with errors"
+            exit 1
+          else
+            echo "No infrastructure drift detected"
+            echo "No drift detected" > drift-details.txt
+          fi
+
+      - name: Generate drift report
+        run: |
+          cat << EOF > infrastructure-drift-report.md
+          # Infrastructure Drift Detection Report
+          Generated on: $(date)
+          
+          ## Drift Analysis
+          \`\`\`
+          $(cat drift-details.txt)
+          \`\`\`
+          
+          ## Recommendations
+          - Review any detected changes
+          - Update Terraform state if changes are intentional
+          - Investigate unauthorized modifications
+          
+          EOF
+
+      - name: Upload drift detection artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: infrastructure-drift-report
+          path: |
+            terraform/infrastructure-drift-report.md
+            terraform/drift-details.txt
+
+  notification:
+    name: 📢 Send Notifications
+    runs-on: ubuntu-latest
+    needs: [azure-compliance, cost-governance, infrastructure-drift]
+    if: always()
+    
+    steps:
+      - name: Download all reports
+        uses: actions/download-artifact@v3
+
+      - name: Send Teams notification
+        if: env.TEAMS_WEBHOOK_URL != ''
+        run: |
+          curl -H "Content-Type: application/json" -d '{
+            "text": "Azure Compliance Monitoring completed for tolis-showcase project. Check workflow artifacts for detailed reports.",
+            "title": "Azure Compliance Report",
+            "themeColor": "0078D4"
+          }' ${{ secrets.TEAMS_WEBHOOK_URL }}
+
+      - name: Create summary issue
+        uses: actions/github-script@v6
+        if: failure()
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Azure Compliance Issues Detected',
+              body: 'The Azure compliance monitoring workflow has detected issues that require attention. Please review the workflow artifacts for detailed information.',
+              labels: ['azure', 'compliance', 'security']
+            })

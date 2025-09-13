@@ -1,0 +1,244 @@
+# DevSecOps CI/CD Pipeline for Terraform Infrastructure
+name: DevSecOps Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/**'
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  TF_VERSION: '1.5.0'
+
+jobs:
+  # Security scanning and validation
+  security-scan:
+    name: 🔒 Security Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Run Checkov security scanner
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/
+          framework: terraform
+          output_format: sarif
+          output_file_path: checkov-results.sarif
+
+      - name: Upload Checkov scan results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: checkov-results.sarif
+
+  # Terraform validation and planning
+  terraform-validate:
+    name: 🏗️ Terraform Validation
+    runs-on: ubuntu-latest
+    needs: security-scan
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+        continue-on-error: false
+
+      - name: Terraform Init
+        run: terraform init -backend=false
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Run TFLint
+        uses: terraform-linters/setup-tflint@v3
+        with:
+          tflint_version: latest
+
+      - name: Initialize TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        run: tflint -f compact
+
+      - name: Terraform Plan (Dev)
+        run: |
+          terraform init -backend=false
+          terraform plan -var-file=environments/dev/terraform.tfvars -out=dev.tfplan
+        env:
+          TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
+
+      - name: Upload plan artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-plan
+          path: terraform/dev.tfplan
+
+  # Cost estimation
+  cost-estimation:
+    name: 💰 Cost Estimation
+    runs-on: ubuntu-latest
+    needs: terraform-validate
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download plan artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: terraform-plan
+          path: terraform/
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Setup Infracost
+        uses: infracost/actions/setup@v2
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      - name: Generate Infracost JSON
+        working-directory: terraform
+        run: |
+          terraform init -backend=false
+          terraform show -json dev.tfplan > plan.json
+          infracost breakdown --path plan.json --format json --out-file infracost.json
+
+      - name: Post Infracost comment
+        uses: infracost/actions/comment@v1
+        with:
+          path: terraform/infracost.json
+          behavior: update
+
+  # Deployment to development
+  deploy-dev:
+    name: 🚀 Deploy to Development
+    runs-on: ubuntu-latest
+    needs: [terraform-validate, security-scan]
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    environment: development
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan -var-file=environments/dev/terraform.tfvars -out=dev.tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve dev.tfplan
+
+      - name: Run post-deployment security tests
+        run: |
+          echo "Running post-deployment security validation..."
+          # Add custom security tests here
+
+  # Deployment to production
+  deploy-prod:
+    name: 🏭 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [terraform-validate, security-scan]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan -var-file=environments/prod/terraform.tfvars -out=prod.tfplan
+
+      - name: Manual approval checkpoint
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: ZanshinShadow
+          minimum-approvals: 1
+          issue-title: "Production deployment approval required"
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve prod.tfplan
+
+      - name: Post-deployment validation
+        run: |
+          echo "Running production validation tests..."
+          # Add production-specific validation
+
+  # Security monitoring
+  security-monitoring:
+    name: 📊 Security Monitoring
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: [deploy-prod]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run compliance checks
+        run: |
+          echo "Running compliance validation..."
+          # Add compliance checking scripts
+
+      - name: Generate security report
+        run: |
+          echo "Generating security posture report..."
+          # Add security reporting logic
