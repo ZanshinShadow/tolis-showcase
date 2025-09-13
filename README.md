@@ -357,6 +357,8 @@ The **tolis-showcase** project demonstrates professional expertise, but contribu
 
 **Professional LinkedIn**: https://www.linkedin.com/in/atsirogiannis/
 
+**Upwork Freelance Profile**: https://www.upwork.com/freelancers/apostolos
+
 **Expertise Areas**:
 - ☁️ Azure Cloud Architecture & Implementation
 - 🏗️ Infrastructure as Code (Terraform, ARM, Bicep)
