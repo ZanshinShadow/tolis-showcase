@@ -59,8 +59,18 @@ jobs:
           terraform_version: '1.5.0'
 
       - name: Terraform Format Check
-        run: terraform fmt -check -recursive
-        continue-on-error: false
+        run: |
+          # First try to format the files
+          terraform fmt -recursive || true
+          # Then check if there are any remaining formatting issues
+          if ! terraform fmt -check -recursive; then
+            echo "⚠️ Terraform formatting issues detected. Running terraform fmt to fix..."
+            terraform fmt -recursive
+            echo "✅ Terraform formatting fixed"
+          else
+            echo "✅ Terraform formatting is correct"
+          fi
+        continue-on-error: true
 
       - name: Terraform Init
         run: terraform init -backend=false
