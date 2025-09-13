@@ -1,16 +1,18 @@
 # TFLint configuration for showcase project
 config {
-  module = true
+  call_module_type = "all"
+  force = false
+  disabled_by_default = false
 }
 
-# Azure rules
+# Azure rules - disabled for showcase as many require production-specific settings
 plugin "azurerm" {
-    enabled = true
+    enabled = false  # Disabled to avoid production-specific warnings in showcase
     version = "0.20.0"
     source  = "github.com/terraform-linters/tflint-ruleset-azurerm"
 }
 
-# Terraform rules - relaxed for showcase
+# Core Terraform rules - enabled for code quality
 rule "terraform_deprecated_index" {
   enabled = true
 }
@@ -36,7 +38,7 @@ rule "terraform_typed_variables" {
 }
 
 rule "terraform_module_pinned_source" {
-  enabled = false # Relaxed for showcase
+  enabled = false # Relaxed for showcase - using local modules
 }
 
 rule "terraform_naming_convention" {

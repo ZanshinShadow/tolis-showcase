@@ -128,6 +128,15 @@ This project demonstrates enterprise-level DevSecOps practices with automated se
 - **💰 Cost Governance**: Resource cost tracking and budget monitoring
 - **🚨 Drift Detection**: Infrastructure drift monitoring and alerting
 
+### **⚠️ Expected Security Findings**
+**Note**: This is a **showcase project** designed to demonstrate capabilities. Security findings in automated scans are expected and include:
+- Demo configurations optimized for learning rather than production hardening
+- Public network access enabled for demonstration purposes
+- Simplified authentication for showcase environments
+- Standard Azure service configurations without enterprise-specific hardening
+
+**For Production Use**: All security findings should be addressed according to your organization's security requirements.
+
 ### **Continuous Security Workflows**
 ```yaml
 # Automated security checks on every commit
