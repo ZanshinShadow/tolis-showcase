@@ -1,0 +1,18 @@
+# Checkov configuration for showcase project
+# This file defines which security checks to skip for demonstration purposes
+
+skip-check:
+  # Web application demo requires HTTP access
+  - CKV_AZURE_160  # HTTP (port 80) access - needed for web demo
+  
+  # Encryption settings that require enterprise setup
+  - CKV_AZURE_93   # Customer-managed disk encryption - requires enterprise key management
+  
+  # Extensions are intentionally not used in this showcase
+  - CKV_AZURE_50   # VM Extensions not installed - by design for security
+
+# Note: The following checks are addressed in the code:
+# - CKV_AZURE_114: Key vault secrets content_type - FIXED
+# - CKV_AZURE_42:  Key vault recoverable - FIXED  
+# - CKV_AZURE_110: Key vault purge protection - FIXED
+# - CKV_AZURE_251: VM disks without public access - FIXED

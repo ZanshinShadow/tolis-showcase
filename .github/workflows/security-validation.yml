@@ -33,6 +33,7 @@ jobs:
         with:
           directory: terraform/
           framework: terraform
+          config_file: .checkov.yml
           soft_fail: true
 
       - name: Security scan summary

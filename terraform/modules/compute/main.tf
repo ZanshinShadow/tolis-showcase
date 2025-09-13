@@ -128,6 +128,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
+    # Encryption settings for showcase
+    security_encryption_type = "EncryptionAtRestWithPlatformKey"
   }
   
   source_image_reference {
@@ -154,6 +156,10 @@ resource "azurerm_managed_disk" "data" {
   storage_account_type = "Premium_LRS"
   create_option        = "Empty"
   disk_size_gb         = 64
+  
+  # Security enhancements for showcase
+  public_network_access_enabled = false # CKV_AZURE_251
+  network_access_policy         = "DenyAll"
   
   tags = var.tags
 }

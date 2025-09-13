@@ -64,7 +64,8 @@ resource "azurerm_network_security_group" "main" {
   location            = var.location
   resource_group_name = var.resource_group_name
   
-  # Web tier rules
+  # Web tier rules - NOTE: HTTP (port 80) is open for demo purposes
+  # In production, consider redirecting HTTP to HTTPS and restricting source IPs
   security_rule {
     name                       = "Allow-HTTP"
     priority                   = 1001
@@ -73,7 +74,7 @@ resource "azurerm_network_security_group" "main" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "80"
-    source_address_prefix      = "*"
+    source_address_prefix      = "*" # CKV_AZURE_160: Restrict this in production
     destination_address_prefix = "10.0.1.0/24"
   }
   

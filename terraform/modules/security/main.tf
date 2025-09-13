@@ -16,45 +16,48 @@ resource "azurerm_key_vault" "main" {
   location            = var.location
   resource_group_name = var.resource_group_name
   tenant_id           = data.azurerm_client_config.current.tenant_id
-  
+
   sku_name = "standard"
-  
+
+  # Security enhancements for showcase
+  soft_delete_retention_days = 90
+  purge_protection_enabled   = true # CKV_AZURE_110
+  enable_rbac_authorization  = false
+
   # Access policies
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
-    
+
     key_permissions = [
       "Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore"
     ]
-    
+
     secret_permissions = [
       "Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"
     ]
-    
+
     certificate_permissions = [
       "Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore", "ManageContacts", "ManageIssuers", "GetIssuers", "ListIssuers", "SetIssuers", "DeleteIssuers"
     ]
   }
-  
+
   # Network access rules
   network_acls {
     default_action = "Deny"
     bypass         = "AzureServices"
-    
+
     virtual_network_subnet_ids = [var.subnet_id]
-    
+
     # Allow access from management subnet
     ip_rules = ["0.0.0.0/0"] # Restrict this in production
   }
-  
+
   # Security features
   enabled_for_disk_encryption     = true
   enabled_for_template_deployment = true
   enabled_for_deployment          = true
-  purge_protection_enabled        = false # Set to true for production
-  soft_delete_retention_days      = 7
-  
+
   tags = var.tags
 }
 
@@ -63,7 +66,8 @@ resource "azurerm_key_vault_secret" "admin_username" {
   name         = "admin-username"
   value        = "azureadmin"
   key_vault_id = azurerm_key_vault.main.id
-  
+  content_type = "username" # CKV_AZURE_114
+
   depends_on = [azurerm_key_vault.main]
 }
 
@@ -71,7 +75,8 @@ resource "azurerm_key_vault_secret" "database_connection_string" {
   name         = "database-connection-string"
   value        = "Server=tcp:sql-${var.project_name}-${var.environment}.database.windows.net,1433;Database=db-${var.project_name};Encrypt=true;TrustServerCertificate=false;Connection Timeout=30;"
   key_vault_id = azurerm_key_vault.main.id
-  
+  content_type = "connection-string" # CKV_AZURE_114
+
   depends_on = [azurerm_key_vault.main]
 }
 
