@@ -32,7 +32,7 @@ If you discover a security vulnerability, please follow these steps:
 ### 1. Do NOT create a public GitHub issue
 
 ### 2. Send a private report to:
-- **Email**: apostolis.tsirogianni@outlook.com
+- **Email**: apostolis.tsirogiannis@techtakt.com
 - **LinkedIn**: [Apostolos Tsirogiannidis](https://www.linkedin.com/in/apostolos-tsirogiannidis-801a0a229/)
 - **Upwork**: [Professional Profile](https://www.upwork.com/freelancers/apostolos)
 
@@ -100,7 +100,7 @@ The infrastructure follows these security frameworks:
 ## Contact Information
 
 **Security Contact**: Apostolos Tsirogiannidis
-- **Email**: apostolis.tsirogianni@outlook.com
+- **Email**: apostolis.tsirogiannis@techtakt.com
 - **LinkedIn**: [Connect with me](https://www.linkedin.com/in/apostolos-tsirogiannidis-801a0a229/)
 - **Upwork**: [Hire me](https://www.upwork.com/freelancers/apostolos)
 
