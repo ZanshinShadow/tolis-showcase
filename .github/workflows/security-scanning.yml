@@ -13,6 +13,12 @@ on:
       - '**/Pipfile'
       - '**/poetry.lock'
 
+# Required permissions for security scanning
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 jobs:
   dependency-scan:
     name: 🔍 Dependency Vulnerability Scan
@@ -31,8 +37,8 @@ jobs:
           args: --severity-threshold=high
 
       - name: Upload Snyk results to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('snyk.sarif') != ''
         with:
           sarif_file: snyk.sarif
 
@@ -92,6 +98,9 @@ jobs:
   terraform-security:
     name: 🏗️ Terraform Security Analysis
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
     
     steps:
       - name: Checkout code
@@ -114,8 +123,8 @@ jobs:
           soft_fail: true
 
       - name: Upload tfsec results
-        uses: github/codeql-action/upload-sarif@v2
-        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('results.sarif') != ''
         with:
           sarif_file: results.sarif
 
@@ -123,6 +132,9 @@ jobs:
   secret-scan:
     name: 🔐 Secret Detection
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
     
     steps:
       - name: Checkout code

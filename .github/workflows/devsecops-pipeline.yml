@@ -1,5 +1,8 @@
-# DevSecOps CI/CD Pipeline for Terraform Infrastructure
-name: DevSecOps Pipeline
+# DevSecOps CI/CD Pipeline for Terraform Infrastructure      - name: Upload Checkov scan results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('checkov-results.sarif') != ''
+        with:
+          sarif_file: 'checkov-results.sarif': DevSecOps Pipeline
 
 on:
   push:
@@ -9,6 +12,12 @@ on:
     paths:
       - 'terraform/**'
       - '.github/workflows/**'
+
+# Required permissions for security scanning
+permissions:
+  contents: read
+  security-events: write
+  actions: read
 
 env:
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -35,7 +44,7 @@ jobs:
           output: 'trivy-results.sarif'
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
