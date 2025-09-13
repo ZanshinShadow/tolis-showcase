@@ -14,9 +14,15 @@ This solution provides automated device uptime monitoring and remediation for en
   - `1`: Non-compliant (reboot required)
   - `2`: Script error
 
-### RemediationScript.ps1 *(Coming Next)*
-- **Purpose**: Provides automated or user-initiated reboot remediation
-- **Function**: Handles graceful system restart with user notification and grace periods
+### RemediationScript.ps1
+- **Purpose**: Provides user-friendly reboot notifications and scheduling capabilities
+- **Function**: Shows modern toast notifications with grace periods and frequency limiting
+- **Features**: 
+  - Enterprise-grade Windows 10/11 toast notifications
+  - Configurable notification frequency and grace periods
+  - Maintenance window scheduling support
+  - Fallback notification methods for compatibility
+  - Comprehensive tracking and compliance reporting
 - **Integration**: Triggered automatically when detection script reports non-compliance
 
 ## Enterprise Use Cases
@@ -47,6 +53,39 @@ This solution provides automated device uptime monitoring and remediation for en
 - Windows Event Log integration for enterprise monitoring
 - Custom log file export for SIEM integration
 - JSON metrics export for monitoring system integration
+
+## Usage Examples
+
+### Basic Detection and Remediation
+```powershell
+# Detection (run first)
+.\DetectionScript.ps1 -ThresholdDays 7 -Verbose
+
+# Remediation (triggered automatically if detection returns exit code 1)
+.\RemediationScript.ps1 -ThresholdDays 7
+```
+
+### Advanced Enterprise Configuration
+```powershell
+# Detection with custom logging and metrics export
+.\DetectionScript.ps1 -ThresholdDays 14 -LogPath "C:\Monitoring\" -ExportMetrics
+
+# Remediation with maintenance window and custom notifications
+.\RemediationScript.ps1 -ThresholdDays 14 -EnableScheduledReboot -MaintenanceWindowStart "20:00" -MaintenanceWindowEnd "06:00" -GracePeriodHours 8 -MaxNotifications 2
+```
+
+### Microsoft Intune Deployment
+```powershell
+# Detection Script Configuration
+# - Run as System account
+# - Schedule: Every 4 hours during business hours
+# - Timeout: 30 minutes
+
+# Remediation Script Configuration  
+# - Run in user context for notifications
+# - Triggered only when detection fails
+# - Use default notification settings for user-friendly experience
+```
 
 ### Deployment Considerations
 - **Permissions**: Requires local system access for process information
