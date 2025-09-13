@@ -128,8 +128,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
-    # Encryption settings for showcase
-    security_encryption_type = "EncryptionAtRestWithPlatformKey"
+    # Encryption settings for showcase - using VMGuestStateOnly for demo purposes
+    security_encryption_type = "VMGuestStateOnly"
   }
   
   source_image_reference {
