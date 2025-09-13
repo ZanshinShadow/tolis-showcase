@@ -27,6 +27,8 @@ This project follows enterprise security best practices:
 
 ## Reporting a Vulnerability
 
+⚠️ **DISCLAIMER**: This is a professional showcase project. Security reporting is for demonstration purposes only. See [DISCLAIMER.md](DISCLAIMER.md) for full legal terms.
+
 If you discover a security vulnerability, please follow these steps:
 
 ### 1. Do NOT create a public GitHub issue
@@ -43,6 +45,8 @@ If you discover a security vulnerability, please follow these steps:
 - Suggested remediation (if any)
 
 ## Response Timeline
+
+**Note**: This is a showcase project - response times are for demonstration purposes only.
 
 - **Initial Response**: Within 24 hours
 - **Assessment**: Within 72 hours

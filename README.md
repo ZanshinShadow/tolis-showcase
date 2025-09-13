@@ -6,8 +6,11 @@
 [![PowerShell](https://img.shields.io/badge/PowerShell-7.0+-blue.svg)](https://github.com/PowerShell/PowerShell)
 [![DevSecOps](https://img.shields.io/badge/DevSecOps-Security%20First-red.svg)](https://github.com/ZanshinShadow/tolis-showcase)
 [![Security](https://img.shields.io/badge/Security-Automated-green.svg)](https://github.com/ZanshinShadow/tolis-showcase/security)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > **A comprehensive showcase of enterprise-level expertise in Terraform Infrastructure as Code, Microsoft 365 administration, and Azure cloud services.**
+
+⚠️ **IMPORTANT**: This is a **professional showcase project** for demonstration purposes. Please read the [DISCLAIMER](DISCLAIMER.md) and [LICENSE](LICENSE) before use.
 
 This repository demonstrates real-world, production-ready examples and best practices for modern enterprise infrastructure management, automation, and cloud governance.
 
@@ -410,5 +413,25 @@ The **tolis-showcase** project demonstrates professional expertise, but contribu
 - ✅ **Cost-optimized** solutions with governance controls
 - ✅ **Scalable architecture** supporting growth
 - ✅ **Monitoring & observability** built-in from day one
+
+## ⚖️ Legal Information
+
+### 📄 License
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for full details.
+
+### ⚠️ Disclaimer
+**IMPORTANT**: This is a professional showcase project. Please read the comprehensive [DISCLAIMER](DISCLAIMER.md) which includes:
+
+- **Liability limitations** and usage warnings
+- **Azure cost considerations** and management advice
+- **Security guidelines** and best practices
+- **Compliance notices** and professional review requirements
+
+### 🛡️ No Warranty
+This software is provided "AS IS" without warranty of any kind. Use at your own risk and responsibility.
+
+---
+
+*© 2025 Apostolos Tsirogiannidis. All rights reserved. Licensed under MIT License.*
 
 *Built with ❤️ by Tolis. Passionate about cloud automation and enterprise architecture.*
