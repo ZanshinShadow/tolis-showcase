@@ -19,9 +19,16 @@ This solution provides automated disk space monitoring and management for enterp
   - `1`: Non-compliant (cleanup required)
   - `2`: Script error
 
-### RemediationScript.ps1 *(Coming Next)*
-- **Purpose**: Provides automated disk cleanup and space optimization
-- **Function**: Performs intelligent cleanup operations to free disk space
+### RemediationScript.ps1
+- **Purpose**: Provides automated disk space cleanup and optimization
+- **Function**: Performs intelligent, safe cleanup operations across multiple categories
+- **Features**:
+  - Multi-category disk cleanup with enterprise-safe defaults
+  - Windows Disk Cleanup utility integration with custom cleanup routines
+  - Configurable cleanup targets and preservation settings
+  - Progress tracking with timeout protection and resource monitoring
+  - Before/after space analysis with detailed recovery reporting
+  - Comprehensive safety validation and recent file preservation
 - **Integration**: Triggered automatically when detection script reports non-compliance
 
 ## Enterprise Use Cases
