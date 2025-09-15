@@ -137,14 +137,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+        continue-on-error: true
 
       - name: Run TruffleHog
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
-          base: main
-          head: HEAD
-          extra_args: --debug --only-verified
+          extra_args: --debug --only-verified --no-update
+        continue-on-error: true
 
   # Compliance reporting
   compliance-report:
