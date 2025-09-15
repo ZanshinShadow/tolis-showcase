@@ -5,18 +5,19 @@
 [![Microsoft 365](https://img.shields.io/badge/Microsoft_365-Admin-orange.svg)](https://www.microsoft.com/microsoft-365)
 [![PowerShell](https://img.shields.io/badge/PowerShell-7.0+-blue.svg)](https://github.com/PowerShell/PowerShell)
 [![DevSecOps](https://img.shields.io/badge/DevSecOps-Security%20First-red.svg)](https://github.com/ZanshinShadow/tolis-showcase)
+[![Endpoint Management](https://img.shields.io/badge/Endpoint-Management-brightgreen.svg)](https://github.com/ZanshinShadow/tolis-showcase/tree/main/remediations)
 [![Security](https://img.shields.io/badge/Security-Automated-green.svg)](https://github.com/ZanshinShadow/tolis-showcase/security)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **A comprehensive showcase of enterprise-level expertise in Terraform Infrastructure as Code, Microsoft 365 administration, and Azure cloud services.**
+> **A comprehensive showcase of enterprise-level expertise in Terraform Infrastructure as Code, Microsoft 365 administration, Azure cloud services, endpoint management automation, and DevSecOps security practices.**
 
 ⚠️ **IMPORTANT**: This is a **professional showcase project** for demonstration purposes. Please read the [DISCLAIMER](DISCLAIMER.md) and [LICENSE](LICENSE) before use.
 
-This repository demonstrates real-world, production-ready examples and best practices for modern enterprise infrastructure management, automation, and cloud governance.
+This repository demonstrates real-world, production-ready examples and best practices for modern enterprise infrastructure management, security automation, endpoint compliance, and cloud governance across hybrid environments.
 
 ## 🎯 Project Overview
 
-This showcase project highlights advanced system engineering capabilities across three core technology areas:
+This showcase project highlights advanced system engineering capabilities across five core technology areas:
 
 ### 🏗️ **Infrastructure as Code (Terraform)**
 - **Enterprise-grade Azure infrastructure** with modular design
@@ -26,18 +27,32 @@ This showcase project highlights advanced system engineering capabilities across
 - **Cost optimization** and resource governance
 
 ### ☁️ **Microsoft 365 Administration**
-- **Automated user provisioning** and lifecycle management
-- **Security compliance monitoring** and reporting
-- **Conditional Access policy management**
-- **Risk-based authentication analysis**
-- **Audit log analysis** and threat detection
+- **Advanced user provisioning** and lifecycle management with Microsoft Graph
+- **Enterprise security monitoring** with threat detection and incident response
+- **Compliance automation** supporting SOC2, ISO27001, NIST, GDPR frameworks
+- **Risk-based authentication** analysis and conditional access optimization
+- **Executive reporting** with security KPIs and compliance dashboards
 
 ### 🔧 **Azure Cloud Services**
-- **Resource monitoring** and cost management
-- **Security Center integration** and compliance checking
-- **Policy enforcement** and governance automation
-- **Performance optimization** recommendations
-- **Automated reporting** and alerting
+- **Resource monitoring** and cost management with advanced analytics
+- **Security Center integration** and compliance checking automation
+- **Policy enforcement** and governance automation with drift detection
+- **Performance optimization** recommendations and automated remediation
+- **Threat detection** with automated response and SIEM integration
+
+### 🖥️ **Enterprise Endpoint Management**
+- **Proactive Remediations** framework for Windows device compliance
+- **Intelligent automation** for reboot management and maintenance windows
+- **Advanced disk space management** with multi-category cleanup automation
+- **Enterprise deployment** support for Intune, SCCM, and Group Policy
+- **Comprehensive monitoring** with progress tracking and event log integration
+
+### 🔒 **DevSecOps & Security Automation**
+- **Comprehensive CI/CD pipelines** with security-first approach
+- **Multi-layered security scanning** including SAST, DAST, and infrastructure analysis
+- **Automated compliance monitoring** with Azure Policy and Security Center
+- **Threat detection** and incident response automation
+- **Cost governance** and optimization with budget alerts and recommendations
 
 ## 📁 Project Structure
 
@@ -53,16 +68,35 @@ This showcase project highlights advanced system engineering capabilities across
 │   │   ├── 🗂️ compute/                # Virtual machines, load balancers
 │   │   └── 🗂️ storage/                # Storage accounts, databases
 │   └── 🗂️ environments/               # Environment-specific configurations
-│       └── 🗂️ dev/                    # Development environment settings
+│       ├── 🗂️ dev/                    # Development environment settings
+│       └── 🗂️ prod/                   # Production environment settings
 ├── 🗂️ microsoft365/                   # M365 Administration & Automation
 │   └── 🗂️ powershell/                 # PowerShell automation scripts
-│       ├── 📄 UserManagement.ps1      # User provisioning & lifecycle
-│       └── 📄 SecurityCompliance.ps1  # Security monitoring & compliance
+│       ├── 📄 UserManagement.ps1      # Enterprise user provisioning & lifecycle
+│       ├── 📄 SecurityCompliance.ps1  # Advanced security monitoring & compliance
+│       └── 📄 RestoreGroupMembership.ps1 # Group membership disaster recovery
 ├── 🗂️ azure/                          # Azure Cloud Services
 │   └── 🗂️ powershell/                 # Azure management scripts
-│       └── 📄 ResourceMonitoring.ps1  # Resource governance & monitoring
+│       ├── 📄 ResourceMonitoring.ps1  # Resource governance & monitoring
+│       ├── 📄 GroupOwnerSync.ps1      # Azure AD group ownership automation
+│       └── 📄 SecurityFailedLoginsRunbook.ps1 # Security threat detection
+├── 🗂️ remediations/                   # Enterprise Endpoint Management
+│   └── 🗂️ Device-Management/          # Windows endpoint automation
+│       ├── 🗂️ Reboot-Detection/       # Intelligent reboot management
+│       │   ├── 📄 DetectionScript.ps1 # Uptime monitoring & compliance
+│       │   ├── 📄 RemediationScript.ps1 # Automated reboot orchestration
+│       │   └── 📄 README.md           # Implementation guide
+│       └── 🗂️ Disk-Space-Management/  # Storage optimization automation
+│           ├── 📄 DetectionScript.ps1 # Disk space monitoring
+│           ├── 📄 RemediationScript.ps1 # Automated cleanup & optimization
+│           └── 📄 README.md           # Configuration guide
 ├── 🗂️ scripts/                        # Deployment & automation scripts
-│   └── 📄 Deploy-Infrastructure.ps1   # Terraform deployment automation
+│   ├── 📄 Deploy-Infrastructure.ps1   # Terraform deployment automation
+│   └── 📄 LockScreenCustomization.ps1 # Enterprise desktop management
+├── 🗂️ .github/workflows/              # DevSecOps CI/CD Pipelines
+│   ├── 📄 devsecops-pipeline.yml      # Main security & deployment pipeline
+│   ├── 📄 azure-compliance.yml        # Azure compliance monitoring
+│   └── 📄 security-scanning.yml       # Code & infrastructure security
 └── 🗂️ docs/                           # Documentation
     └── 📄 README.md                   # You are here!
 ```
@@ -180,29 +214,44 @@ This project demonstrates enterprise-level DevSecOps practices with automated se
 
 ### ☁️ Microsoft 365 Administration
 
-#### **User Management Automation**
+#### **Enterprise User Management Automation**
 ```powershell
-# Bulk user provisioning from CSV
-Import-UsersFromCSV -CSVPath "users.csv"
+# Advanced user provisioning with enterprise configuration
+New-StandardUser -FirstName "John" -LastName "Doe" -Department "IT" -JobTitle "Engineer" -Manager "jane.doe@company.com"
 
-# Create standardized users with governance
-New-StandardUser -FirstName "John" -LastName "Doe" -Department "IT" -JobTitle "Engineer"
+# Bulk user operations from CSV with validation
+Import-UsersFromCSV -CSVPath "users.csv" -WhatIf
 
-# Generate compliance reports
-Get-UserComplianceReport
+# Comprehensive compliance and governance reporting
+Get-UserComplianceReport -IncludeRiskAnalysis -ExportPath "ComplianceReport.xlsx"
 ```
 
-#### **Security & Compliance Monitoring**
+**Enterprise Features:**
+- **🔐 Microsoft Graph Integration**: Advanced API automation with proper scoping
+- **👥 Lifecycle Management**: Complete user provisioning, modification, and deprovisioning
+- **🛡️ Security Integration**: Risk assessment and conditional access automation
+- **📊 Compliance Reporting**: Detailed audit trails and governance analytics
+- **⚙️ Automation Ready**: Azure Automation and Managed Identity support
+
+#### **Advanced Security & Compliance Monitoring**
 ```powershell
-# Analyze security incidents
-Get-SecurityIncidents -DaysBack 30
+# Comprehensive security incident analysis
+Get-SecurityIncidents -DaysBack 30 -Severity "High" -IncludeIOCs
 
-# Monitor risky sign-ins
-Get-RiskySignIns -DaysBack 7
+# Risk-based authentication monitoring
+Get-RiskySignIns -DaysBack 7 -RiskLevel "Medium" -AnalyzePatterns
 
-# Generate comprehensive security report
-New-SecurityReport -OutputPath "SecurityReport.html"
+# Executive security dashboard generation
+New-SecurityReport -ReportType "Executive" -IncludeKPIs -OutputFormat "HTML"
 ```
+
+**Advanced Security Operations:**
+- **🚨 Threat Detection**: Advanced analytics with IOC correlation and attack timeline analysis
+- **🔍 Identity Protection**: Risk-based authentication assessment and anomaly detection
+- **📈 Executive Dashboards**: Security KPIs, threat metrics, and compliance scorecards
+- **🛡️ SIEM Integration**: Azure Sentinel connector and security orchestration support
+- **⚡ Automated Response**: Incident response workflows and security playbook execution
+- **📋 Compliance Frameworks**: SOC2, ISO27001, NIST, GDPR mapping and assessment
 
 ### 🔧 Azure Resource Management
 
@@ -229,6 +278,50 @@ Get-OptimizationRecommendations
 # Automated monitoring reports
 New-MonitoringReport
 ```
+
+### 🖥️ Enterprise Endpoint Management
+
+#### **Proactive Remediations Framework**
+A comprehensive endpoint management solution demonstrating enterprise-grade automation for Windows device compliance and optimization.
+
+#### **Reboot Management Automation**
+```powershell
+# Intelligent uptime monitoring with maintenance windows
+.\DetectionScript.ps1 -MaxUptimeDays 7 -MaintenanceWindow "02:00-04:00"
+
+# Automated reboot orchestration with user notifications
+.\RemediationScript.ps1 -DelayMinutes 30 -ForceReboot $false
+```
+
+**Enterprise Features:**
+- **📊 Compliance Monitoring**: Real-time uptime tracking with configurable thresholds
+- **🔔 User Notifications**: Professional Windows toast notifications with countdown timers
+- **⏰ Maintenance Windows**: Intelligent scheduling respecting business hours
+- **📈 Progress Tracking**: Comprehensive logging and event log integration
+- **🎯 Deployment Flexibility**: Support for Intune, SCCM, Group Policy deployment
+
+#### **Disk Space Management Automation**
+```powershell
+# Comprehensive disk space monitoring
+.\DetectionScript.ps1 -ThresholdGB 10 -CheckAllDrives $true
+
+# Advanced cleanup automation with safety validation
+.\RemediationScript.ps1 -CleanupCategories @("TempFiles", "Logs", "Cache") -SafetyMode $true
+```
+
+**Advanced Capabilities:**
+- **🧹 Multi-Category Cleanup**: 15+ cleanup categories including temp files, logs, downloads, cache
+- **⚡ Windows Disk Cleanup Integration**: Native tool integration plus custom cleanup routines
+- **🛡️ Safety Validation**: Recent file preservation and intelligent cleanup selection
+- **📊 Before/After Analysis**: Detailed space recovery reporting and metrics
+- **⏱️ Progress Monitoring**: Real-time cleanup progress with timeout protection
+- **🔧 Enterprise Integration**: JSON metrics export, Event Log integration, monitoring support
+
+#### **Deployment Scenarios**
+- **Microsoft Intune**: Proactive Remediations for cloud-managed devices
+- **System Center Configuration Manager**: Configuration Baselines and compliance rules
+- **Group Policy**: Scheduled tasks and startup scripts for domain environments
+- **Azure Automation**: Hybrid Worker Groups for cross-cloud management
 
 ## 📊 Architecture Diagrams
 
@@ -416,12 +509,16 @@ The **tolis-showcase** project demonstrates professional expertise, but contribu
 ### 🏆 **This project demonstrates enterprise-level system engineering expertise with real-world, production-ready solutions.**
 
 **Key Differentiators:**
-- ✅ **Production-ready** code with enterprise patterns
-- ✅ **Security-first** approach with compliance focus
-- ✅ **Comprehensive automation** reducing manual effort
-- ✅ **Cost-optimized** solutions with governance controls
-- ✅ **Scalable architecture** supporting growth
-- ✅ **Monitoring & observability** built-in from day one
+- ✅ **Production-ready** code with enterprise patterns and comprehensive documentation
+- ✅ **Security-first** approach with automated threat detection and compliance monitoring
+- ✅ **Comprehensive automation** reducing manual effort across infrastructure and endpoints
+- ✅ **Cost-optimized** solutions with governance controls and budget management
+- ✅ **Scalable architecture** supporting growth with modular design patterns
+- ✅ **Monitoring & observability** built-in from day one with advanced analytics
+- ✅ **Enterprise endpoint management** with proactive remediation and compliance automation
+- ✅ **Advanced PowerShell expertise** with professional documentation and error handling
+- ✅ **DevSecOps integration** with comprehensive CI/CD pipelines and security automation
+- ✅ **Multi-platform support** for cloud, hybrid, and on-premises environments
 
 ## ⚖️ Legal Information
 
