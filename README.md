@@ -538,6 +538,6 @@ This software is provided "AS IS" without warranty of any kind. Use at your own 
 
 ---
 
-*© 2025 Apostolos Tsirogiannidis. All rights reserved. Licensed under MIT License.*
+*© 2025 Apostolos Tsirogiannis. All rights reserved. Licensed under MIT License.*
 
 *Built with ❤️ by Tolis. Passionate about cloud automation and enterprise architecture.*

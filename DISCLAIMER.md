@@ -98,7 +98,7 @@ While this project demonstrates alignment with security frameworks (Azure Securi
 
 **For showcase or professional inquiries only:**
 - **Email**: apostolis.tsirogiannis@techtakt.com
-- **LinkedIn**: [Apostolos Tsirogiannidis](https://www.linkedin.com/in/apostolos-tsirogiannidis-801a0a229/)
+- **LinkedIn**: [Apostolos Tsirogiannis](https://www.linkedin.com/in/apostolos-tsirogiannidis-801a0a229/)
 - **Upwork**: [Professional Profile](https://www.upwork.com/freelancers/apostolos)
 
 **Note**: Support is not provided for this showcase project. Use for reference and learning purposes.

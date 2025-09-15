@@ -35,7 +35,7 @@ If you discover a security vulnerability, please follow these steps:
 
 ### 2. Send a private report to:
 - **Email**: apostolis.tsirogiannis@techtakt.com
-- **LinkedIn**: [Apostolos Tsirogiannidis](https://www.linkedin.com/in/apostolos-tsirogiannidis-801a0a229/)
+- **LinkedIn**: [Apostolos Tsirogiannis](https://www.linkedin.com/in/apostolos-tsirogiannidis-801a0a229/)
 - **Upwork**: [Professional Profile](https://www.upwork.com/freelancers/apostolos)
 
 ### 3. Include the following information:
@@ -103,7 +103,7 @@ The infrastructure follows these security frameworks:
 
 ## Contact Information
 
-**Security Contact**: Apostolos Tsirogiannidis
+**Security Contact**: Apostolos Tsirogiannis
 - **Email**: apostolis.tsirogiannis@techtakt.com
 - **LinkedIn**: [Connect with me](https://www.linkedin.com/in/apostolos-tsirogiannidis-801a0a229/)
 - **Upwork**: [Hire me](https://www.upwork.com/freelancers/apostolos)
