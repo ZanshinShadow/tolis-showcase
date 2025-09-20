@@ -529,12 +529,29 @@ The **tolis-showcase** project demonstrates professional expertise, but contribu
 - [Terraform Best Practices](https://www.terraform.io/docs/cloud/guides/recommended-practices/index.html)
 - [Microsoft 365 Admin Center](https://docs.microsoft.com/en-us/microsoft-365/admin/)
 
-### **Certification Paths**
-- **Microsoft Certified: Azure Administrator Associate**
-- **Microsoft 365 Certified: Endpoint Administrator Associate**
-- **HashiCorp logo HashiCorp Certified: Terraform Associate (003)**
-- **Certified DevSecOps Professional (CDP)**
-- **Windows PowerShell Scripting and Toolmaking**
+### **Certification Achievement Path**
+✅ **Microsoft Certified: Azure Administrator Associate** - *Achieved*  
+✅ **Microsoft 365 Certified: Endpoint Administrator Associate** - *Achieved*  
+✅ **HashiCorp Certified: Terraform Associate (003)** - *Achieved*  
+✅ **Certified DevSecOps Professional (CDP)** - *Achieved*  
+✅ **Windows PowerShell Scripting and Toolmaking** - *Achieved*
+
+## 🎓 Professional Certifications
+
+[![HashiCorp Terraform Associate](https://img.shields.io/badge/HashiCorp-Terraform_Associate_(003)-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)](https://www.credly.com/badges/5f93d365-c6b9-4278-8181-a91989532877/public_url)
+[![DevSecOps Professional](https://img.shields.io/badge/DevSecOps-Professional_(CDP)-FF6B35?style=for-the-badge&logo=security&logoColor=white)](https://www.credly.com/badges/f322669c-3a61-46e4-a051-cd06036063d1/public_url)
+[![Azure Administrator Associate](https://img.shields.io/badge/Microsoft-Azure_Administrator_Associate-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white)](https://learn.microsoft.com/api/credentials/share/en-us/ApostolosTsirogiannis-7520/4F257AF087C38B5A?sharingId=C6C10B2356A0302D)
+[![Endpoint Administrator Associate](https://img.shields.io/badge/Microsoft_365-Endpoint_Administrator_Associate-FF6C37?style=for-the-badge&logo=microsoft&logoColor=white)](https://learn.microsoft.com/api/credentials/share/en-us/ApostolosTsirogiannis-7520/BF32C2483FFED81C?sharingId=C6C10B2356A0302D)
+[![PowerShell Scripting](https://img.shields.io/badge/Windows-PowerShell_Scripting_&_Toolmaking-0078D6?style=for-the-badge&logo=powershell&logoColor=white)](https://tinyurl.com/ps-certificate)
+
+### 🏆 Verified Expertise
+- **Infrastructure as Code**: HashiCorp Terraform Associate (003) - Advanced automation and infrastructure management
+- **DevSecOps Security**: Certified DevSecOps Professional (CDP) - Security-first development and deployment practices
+- **Azure Cloud Platform**: Microsoft Azure Administrator Associate - Enterprise cloud architecture and management
+- **Modern Endpoint Management**: Microsoft 365 Endpoint Administrator Associate - Device management and security
+- **PowerShell Automation**: Windows PowerShell Scripting and Toolmaking - Advanced scripting and automation expertise
+
+*All certifications are industry-verified and linked to official credential verification pages.*
 
 ## 📞 Contact
 
@@ -565,6 +582,7 @@ The **tolis-showcase** project demonstrates professional expertise, but contribu
 - ✅ **Advanced PowerShell expertise** with professional documentation and error handling
 - ✅ **DevSecOps integration** with comprehensive CI/CD pipelines and security automation
 - ✅ **Multi-platform support** for cloud, hybrid, and on-premises environments
+- ✅ **Industry-verified expertise** with 5 professional certifications covering infrastructure, security, and cloud management
 
 ## ⚖️ Legal Information
 
