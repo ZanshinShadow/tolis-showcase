@@ -44,6 +44,8 @@ This showcase project highlights advanced system engineering capabilities across
 - **Proactive Remediations** framework for Windows device compliance
 - **Intelligent automation** for reboot management and maintenance windows
 - **Advanced disk space management** with multi-category cleanup automation
+- **Windows Search restoration** automation for productivity optimization
+- **Intune device sync** remediation for cloud-managed devices
 - **Enterprise deployment** support for Intune, SCCM, and Group Policy
 - **Comprehensive monitoring** with progress tracking and event log integration
 
@@ -81,15 +83,24 @@ This showcase project highlights advanced system engineering capabilities across
 │       ├── 📄 GroupOwnerSync.ps1      # Azure AD group ownership automation
 │       └── 📄 SecurityFailedLoginsRunbook.ps1 # Security threat detection
 ├── 🗂️ remediations/                   # Enterprise Endpoint Management
-│   └── 🗂️ Device-Management/          # Windows endpoint automation
-│       ├── 🗂️ Reboot-Detection/       # Intelligent reboot management
-│       │   ├── 📄 DetectionScript.ps1 # Uptime monitoring & compliance
-│       │   ├── 📄 RemediationScript.ps1 # Automated reboot orchestration
-│       │   └── 📄 README.md           # Implementation guide
-│       └── 🗂️ Disk-Space-Management/  # Storage optimization automation
-│           ├── 📄 DetectionScript.ps1 # Disk space monitoring
-│           ├── 📄 RemediationScript.ps1 # Automated cleanup & optimization
-│           └── 📄 README.md           # Configuration guide
+│   ├── 🗂️ Device-Management/          # Windows endpoint automation
+│   │   ├── 🗂️ Reboot-Detection/       # Intelligent reboot management
+│   │   │   ├── 📄 DetectionScript.ps1 # Uptime monitoring & compliance
+│   │   │   ├── 📄 RemediationScript.ps1 # Automated reboot orchestration
+│   │   │   └── 📄 README.md           # Implementation guide
+│   │   ├── 🗂️ Disk-Space-Management/  # Storage optimization automation
+│   │   │   ├── 📄 DetectionScript.ps1 # Disk space monitoring
+│   │   │   ├── 📄 RemediationScript.ps1 # Automated cleanup & optimization
+│   │   │   └── 📄 README.md           # Configuration guide
+│   │   └── 🗂️ Windows-Search-Repair/  # Search functionality restoration
+│   │       ├── 📄 DetectionScript.ps1 # Search health assessment
+│   │       ├── 📄 RemediationScript.ps1 # Search index rebuild & repair
+│   │       └── 📄 README.md           # Enterprise deployment guide
+│   └── 🗂️ Intune-Management/          # Cloud device management
+│       └── 🗂️ Intune-Sync-Fix/        # Device sync remediation
+│           ├── 📄 DetectionScript.ps1 # Intune connectivity monitoring
+│           ├── 📄 RemediationScript.ps1 # Sync restoration automation
+│           └── 📄 README.md           # Deployment documentation
 ├── 🗂️ scripts/                        # Deployment & automation scripts
 │   ├── 📄 Deploy-Infrastructure.ps1   # Terraform deployment automation
 │   └── 📄 LockScreenCustomization.ps1 # Enterprise desktop management
@@ -316,6 +327,41 @@ A comprehensive endpoint management solution demonstrating enterprise-grade auto
 - **📊 Before/After Analysis**: Detailed space recovery reporting and metrics
 - **⏱️ Progress Monitoring**: Real-time cleanup progress with timeout protection
 - **🔧 Enterprise Integration**: JSON metrics export, Event Log integration, monitoring support
+
+#### **Windows Search Repair Automation**
+```powershell
+# Comprehensive search health assessment
+.\DetectionScript.ps1 -MaxDatabaseSizeMB 10240 -MaxIndexingTimeHours 24
+
+# Automated search functionality restoration
+.\RemediationScript.ps1 -RebuildIndex $true -RepairDatabase $true
+```
+
+**Enterprise Search Solutions:**
+- **🔍 Comprehensive Health Assessment**: Service status, indexer health, database integrity validation
+- **⚡ Automated Index Rebuild**: Complete search index reconstruction with progress monitoring
+- **🛠️ Database Repair**: Search database corruption detection and automated repair
+- **📊 Performance Monitoring**: Response time analysis and optimization recommendations
+- **🔧 Service Recovery**: Windows Search service restoration and configuration repair
+- **📈 Business Impact Analysis**: User productivity metrics and ROI calculation
+- **🎯 Enterprise Deployment**: Intune Proactive Remediations and SCCM integration ready
+
+#### **Intune Device Management**
+```powershell
+# Intune connectivity monitoring
+.\DetectionScript.ps1 -CheckEnrollmentStatus $true -ValidateConnectivity $true
+
+# Device sync restoration
+.\RemediationScript.ps1 -ForceSync $true -RepairEnrollment $true
+```
+
+**Cloud Device Management:**
+- **☁️ Intune Sync Restoration**: Automated device sync repair and enrollment recovery
+- **🔗 Connectivity Validation**: Azure AD and Intune service connectivity testing
+- **📱 Device Compliance**: Enrollment status and compliance policy validation
+- **🔄 Automated Sync**: Force device sync and policy refresh automation
+- **🛡️ Security Integration**: Conditional access and compliance status monitoring
+- **📊 Management Analytics**: Device health reporting and remediation tracking
 
 #### **Deployment Scenarios**
 - **Microsoft Intune**: Proactive Remediations for cloud-managed devices
