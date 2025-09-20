@@ -72,20 +72,14 @@
     - These permissions must be granted to the Managed Identity through Azure CLI, PowerShell, or Azure Portal
     
     How to Grant Permissions:
+
     
-    Method 1 - Azure Portal:
-    1. Navigate to Azure Active Directory > Enterprise Applications
-    2. Search for your Automation Account's Managed Identity name
-    3. Go to Permissions > Add a permission > Microsoft Graph > Application permissions
-    4. Add: AuditLog.Read.All and User.Read.All
-    5. Click "Grant admin consent" for your tenant
-    
-    Method 2 - Azure CLI:
+    Method 1 - Azure CLI:
     az ad app permission add --id <managed-identity-object-id> --api 00000003-0000-0000-c000-000000000000 --api-permissions b0afded3-3588-46d8-8b3d-9842eff778da=Role df021288-bdef-4463-88db-98f22de89214=Role
     az ad app permission grant --id <managed-identity-object-id> --api 00000003-0000-0000-c000-000000000000
-    
-    Method 3 - PowerShell (see setup instructions below for detailed commands)
-    
+
+    Method 2 - PowerShell (see setup instructions below for detailed commands)
+
     Security Use Cases:
     - Real-time threat detection and incident response
     - SOC automation and security monitoring workflows
