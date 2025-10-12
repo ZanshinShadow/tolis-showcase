@@ -80,6 +80,7 @@ This showcase project highlights advanced system engineering capabilities across
 ├── 🗂️ azure/                          # Azure Cloud Services
 │   └── 🗂️ powershell/                 # Azure management scripts
 │       ├── 📄 ResourceMonitoring.ps1  # Resource governance & monitoring
+|       ├── 📄 Audit-SecurityGroupsUsage.ps1  # Audit of Azure Groups
 │       ├── 📄 GroupOwnerSync.ps1      # Azure AD group ownership automation
 │       └── 📄 SecurityFailedLoginsRunbook.ps1 # Security threat detection
 ├── 🗂️ remediations/                   # Enterprise Endpoint Management
